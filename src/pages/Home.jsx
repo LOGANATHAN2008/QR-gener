@@ -364,11 +364,8 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6"
             >
-              Generate{' '}
-              <span className="text-gradient">Beautiful</span>
-              <br />
-              QR Codes{' '}
-              <span className="text-gradient">Instantly</span>
+              Generate Beautiful<br />
+              <span className="text-gradient">QR Codes in Seconds</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -376,10 +373,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-white/60 mb-10 max-w-lg leading-relaxed"
+              className="text-lg md:text-xl text-white/60 mb-10 max-w-xl"
             >
-              The world's most advanced QR code platform. Create, customize with gradients & logos,
-              track analytics, and share — all in one premium experience.
+              Create, customize, and download professional QR codes with a modern and secure QR platform.
             </motion.p>
 
             {/* CTA Buttons */}

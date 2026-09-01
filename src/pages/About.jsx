@@ -1,54 +1,120 @@
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Rocket, Target, Globe, Code2 } from 'lucide-react'
+import { Rocket, Target, Globe, Code2, CheckCircle2, QrCode } from 'lucide-react'
 
 export default function About() {
+  useEffect(() => {
+    document.title = "About Loganathan QR – Professional QR Code Generator Platform"
+  }, [])
+
+  const features = [
+    'Fast QR Code Generation',
+    'Modern Apple-Inspired Interface',
+    'Mobile Friendly Design',
+    'Secure QR Creation',
+    'High-Quality Downloads',
+    'Advanced Customization',
+    'Business Ready Features',
+    'Student Friendly Platform',
+    'Free and Easy to Use'
+  ]
+
+  const useCases = [
+    'Website URLs', 'WiFi Networks', 'Contact Cards (vCard)',
+    'WhatsApp Links', 'Email Addresses', 'Phone Numbers',
+    'Social Media Profiles', 'Event Registrations', 'Business Promotions',
+    'Digital Payments', 'Location Sharing'
+  ]
+
   return (
-    <div className="pt-32 pb-24 container-app">
+    <div className="pt-28 md:pt-36 pb-24 container-app px-4 sm:px-6">
       {/* Hero Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center max-w-3xl mx-auto mb-20"
+        className="text-center max-w-4xl mx-auto mb-20 md:mb-28"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6 border border-primary/20">
-          <Rocket className="w-4 h-4" /> Welcome to QRVerse
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6 border border-primary/20 backdrop-blur-md">
+          <Rocket className="w-4 h-4" /> Welcome to Loganathan QR
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
-          Simpler, Smarter QR Codes
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gradient leading-tight">
+          Create Powerful QR Codes Instantly
         </h1>
-        <p className="text-lg text-white/60 leading-relaxed">
-          QRVerse is a modern QR Code Generator platform designed to help individuals, students, businesses, and creators generate professional QR codes instantly.
+        <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl mx-auto">
+          Loganathan QR is a modern QR Code Generator platform developed by Loganathan M. Generate beautiful, customizable, and professional QR codes for websites, WiFi, social media, contact cards, payments, events, and business use cases in seconds.
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-20">
+      {/* About Section */}
+      <div className="grid lg:grid-cols-2 gap-10 md:gap-16 mb-20 md:mb-28 items-center">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="glass-card p-8 text-center"
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-8 md:p-10"
         >
-          <div className="w-12 h-12 mx-auto rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6">
-            <Target className="w-6 h-6" />
+          <h2 className="text-2xl md:text-3xl font-bold mb-6">About The Platform</h2>
+          <div className="space-y-4 text-white/70 leading-relaxed">
+            <p>
+              Welcome to Loganathan QR, a next-generation QR Code Generator platform built to simplify the way people create and share digital information.
+            </p>
+            <p>
+              Founded by Loganathan M, Loganathan QR provides a fast, secure, and user-friendly solution for generating high-quality QR codes for personal, educational, and business purposes.
+            </p>
           </div>
-          <h3 className="text-xl font-bold mb-4">Our Mission</h3>
-          <p className="text-white/60">
-            To make QR technology simple, beautiful, and accessible for everyone.
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-8 md:p-10 bg-gradient-to-br from-primary/5 to-secondary/5"
+        >
+          <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
+            <QrCode className="w-6 h-6 text-primary" />
+            Supported Use Cases
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {useCases.map((useCase, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-white/80">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                {useCase}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Mission & Vision */}
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-20 md:mb-28">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-8 md:p-10 text-center group hover:border-primary/30 transition-colors"
+        >
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <Target className="w-8 h-8" />
+          </div>
+          <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
+          <p className="text-white/70 leading-relaxed">
+            To make QR technology accessible, simple, and powerful for everyone.
           </p>
         </motion.div>
 
         <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-          className="glass-card p-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="glass-card p-8 md:p-10 text-center group hover:border-purple-500/30 transition-colors"
         >
-          <div className="w-12 h-12 mx-auto rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-6">
-            <Globe className="w-6 h-6" />
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <Globe className="w-8 h-8" />
           </div>
-          <h3 className="text-xl font-bold mb-4">Our Vision</h3>
-          <p className="text-white/60">
-            To become the world's most trusted QR platform.
+          <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
+          <p className="text-white/70 leading-relaxed">
+            To become one of the most trusted QR code platforms globally by delivering innovative features, premium design, and reliable performance.
           </p>
         </motion.div>
       </div>
@@ -58,95 +124,87 @@ export default function About() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-20"
+        className="mb-20 md:mb-28"
       >
-        <h2 className="text-3xl font-bold text-center mb-10">Why Choose QRVerse</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {[
-            'Dynamic QR Codes',
-            'Custom QR Design',
-            'QR Analytics',
-            'Bulk Generation',
-            'Cloud Storage'
-          ].map((feat, i) => (
-            <div key={i} className="glass-card p-4 text-center">
-              <span className="font-semibold text-sm">{feat}</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why Choose Loganathan QR?</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {features.map((feat, i) => (
+            <div key={i} className="glass-card p-5 flex items-center gap-4 hover:bg-white/5 transition-colors">
+              <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
+              <span className="font-medium text-white/90">{feat}</span>
             </div>
           ))}
         </div>
       </motion.div>
 
-      {/* Stats */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        className="glass-card p-10 mb-20 relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-50" />
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div>
-            <div className="text-4xl font-bold text-primary mb-2">1M+</div>
-            <div className="text-white/60 font-medium">QR Codes Generated</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-secondary mb-2">100K+</div>
-            <div className="text-white/60 font-medium">Active Users</div>
-          </div>
-          <div>
-            <div className="text-4xl font-bold text-accent mb-2">50+</div>
-            <div className="text-white/60 font-medium">Countries</div>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="grid md:grid-cols-2 gap-10">
-        {/* Meet the founder */}
+      {/* Founder & Stats */}
+      <div className="grid lg:grid-cols-2 gap-10 md:gap-12 mb-20 md:mb-28">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="glass-card p-8 flex items-center gap-6"
+          className="glass-card p-8 md:p-10 relative overflow-hidden"
         >
-          <div className="w-24 h-24 rounded-full bg-white/10 flex-shrink-0 border-2 border-primary/30 flex items-center justify-center overflow-hidden">
-            <Code2 className="w-8 h-8 text-primary" />
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+            <Code2 className="w-48 h-48" />
           </div>
-          <div>
-            <h3 className="text-sm font-semibold text-primary mb-1 uppercase tracking-wider">Meet The Founder</h3>
-            <div className="text-2xl font-bold mb-1">Loganathan M</div>
-            <p className="text-white/50">Founder & Developer</p>
+          <div className="relative z-10">
+            <h3 className="text-sm font-bold text-primary mb-2 uppercase tracking-widest">About Founder</h3>
+            <h2 className="text-3xl font-bold mb-6">Loganathan M</h2>
+            <div className="space-y-4 text-white/70 leading-relaxed">
+              <p>
+                Loganathan M is a BCA student, web developer, UI designer, and technology enthusiast from India.
+              </p>
+              <p>
+                Passionate about building innovative digital products, Loganathan focuses on creating modern web applications that combine functionality, simplicity, and excellent user experience.
+              </p>
+              <p>
+                Through Loganathan QR, he aims to help students, professionals, businesses, and creators leverage QR technology efficiently.
+              </p>
+            </div>
           </div>
         </motion.div>
 
-        {/* Timeline */}
         <motion.div 
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="glass-card p-8"
+          className="glass-card p-8 md:p-10 bg-gradient-to-br from-surface to-surface-lighter flex flex-col justify-center"
         >
-          <h3 className="text-xl font-bold mb-6">Timeline</h3>
-          <div className="space-y-6 border-l-2 border-white/10 ml-3 pl-6 mt-4">
-            {[
-              { year: '2026', text: 'QRVerse Started' },
-              { year: '2027', text: '100K Users' },
-              { year: '2028', text: 'Global Expansion' },
-            ].map((item, i) => (
-              <div key={i} className="relative">
-                {/* Dot */}
-                <div className="absolute -left-[35px] top-2 w-5 h-5 rounded-full border-2 border-white/10 bg-surface flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                </div>
-                {/* Content */}
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/30 transition-colors">
-                  <div className="font-bold text-primary mb-1">{item.year}</div>
-                  <div className="text-sm text-white/80">{item.text}</div>
-                </div>
-              </div>
-            ))}
+          <h3 className="text-xl font-bold mb-8 text-center">Platform Impact</h3>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+              <div className="text-3xl font-bold text-primary mb-2">20+</div>
+              <div className="text-sm text-white/60">Projects Completed</div>
+            </div>
+            <div className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+              <div className="text-3xl font-bold text-secondary mb-2">1000+</div>
+              <div className="text-sm text-white/60">Development Hours</div>
+            </div>
+            <div className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+              <div className="text-3xl font-bold text-accent mb-2">10K+</div>
+              <div className="text-sm text-white/60">Community Reach</div>
+            </div>
+            <div className="text-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+              <div className="text-3xl font-bold text-green-400 mb-2">India</div>
+              <div className="text-sm text-white/60">Growing User Base</div>
+            </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Footer Quote */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center pb-10"
+      >
+        <p className="text-xl md:text-2xl font-medium italic text-white/80 mb-4">
+          "Transforming Ideas into Digital Connections Through QR Technology."
+        </p>
+        <p className="text-primary font-semibold">— Loganathan M</p>
+      </motion.div>
     </div>
   )
 }
