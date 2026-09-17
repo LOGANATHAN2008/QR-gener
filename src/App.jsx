@@ -98,7 +98,7 @@ export default function App() {
           <Route path="/gdpr" element={<PageTransition><GDPR /></PageTransition>} />
           
           {/* File redirect route for branded QR codes */}
-          <Route path="/:fileId/:fileName" element={<PageTransition><FileRedirect /></PageTransition>} />
+          <Route path="/f/:fileName" element={<PageTransition><FileRedirect /></PageTransition>} />
         </Routes>
       </AnimatePresence>
 

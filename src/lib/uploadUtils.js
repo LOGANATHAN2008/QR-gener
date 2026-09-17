@@ -1,34 +1,36 @@
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { app } from './firebase'
+
 export const uploadFile = async (file, onProgress) => {
-  const formData = new FormData()
-  formData.append('file', file)
-  
   return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', 'https://tmpfiles.org/api/v1/upload', true)
-    
-    xhr.upload.onprogress = (e) => {
-      if (e.lengthComputable && onProgress) {
-        onProgress((e.loaded / e.total) * 100)
-      }
-    }
-    
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        try {
-          const response = JSON.parse(xhr.responseText)
-          // tmpfiles returns {"status":"success","data":{"url":"https://tmpfiles.org/12345/filename.pdf"}}
-          // User wants it to map to their domain instead:
-          const url = response.data.url.replace('https://tmpfiles.org/', 'https://qr.loganathanm.in/')
-          resolve(url)
-        } catch (err) {
-          reject(err)
+    try {
+      const storage = getStorage(app)
+      // Clean filename for safety and URL
+      const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+      const uniqueName = `${Date.now()}_${cleanName}`
+      
+      const storageRef = ref(storage, `uploads/${uniqueName}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          if (onProgress) onProgress(progress)
+        },
+        (error) => {
+          console.error("Firebase upload error:", error)
+          reject(error)
+        },
+        () => {
+          // Success! We don't need the Firebase download URL because we map it via our custom domain
+          // Generate the branded URL
+          const brandedUrl = `https://qr.loganathanm.in/f/${uniqueName}`
+          resolve(brandedUrl)
         }
-      } else {
-        reject(new Error('Upload failed'))
-      }
+      )
+    } catch (err) {
+      reject(err)
     }
-    
-    xhr.onerror = () => reject(new Error('Network error'))
-    xhr.send(formData)
   })
 }
