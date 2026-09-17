@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 let app = null
 let analytics = null
+export let storage = null
 
 // In dev mode, every event includes debug_mode: true so Firebase DebugView shows them live
 const IS_DEV = import.meta.env.DEV

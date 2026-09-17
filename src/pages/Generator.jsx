@@ -5,16 +5,17 @@ import {
   Globe, Type, Mail, Phone, MessageSquare, MessageCircle, Wifi,
   Contact, MapPin, Calendar, Share2, Palette, Image as ImageIcon,
   Download, Save, RefreshCw, ChevronRight, Eye, Layers, RotateCcw,
-  Copy, Check, Zap, Sparkles
+  Copy, Check, Zap, Sparkles, Music, FileText, Upload
 } from 'lucide-react'
 import QRPreview, { useQRInstance } from '../components/qr/QRPreview'
 import { useAppStore } from '../store/useAppStore'
 import { exportQR } from '../lib/exportUtils'
 import { QR_TYPES, DOT_STYLES, CORNER_STYLES } from '../lib/qrUtils'
 import { trackQRGenerated, trackQRDownloaded } from '../lib/firebase'
+import { uploadFile } from '../lib/uploadUtils'
 
 // ─── QR TYPE ICONS MAP ────────────────────────────────────────────────────────
-const ICONS = { Globe, Type, Mail, Phone, MessageSquare, MessageCircle, Wifi, Contact, MapPin, Calendar, Share2 }
+const ICONS = { Globe, Type, Mail, Phone, MessageSquare, MessageCircle, Wifi, Contact, MapPin, Calendar, Share2, Music, FileText }
 
 // ─── INPUT FIELDS BY TYPE ─────────────────────────────────────────────────────
 const TYPE_FIELDS = {
@@ -62,6 +63,12 @@ const TYPE_FIELDS = {
   social: [
     { id: 'url', label: 'Social Profile URL', placeholder: 'https://twitter.com/yourusername', type: 'url' },
   ],
+  audio: [
+    { id: 'fileUrl', label: 'Upload Audio File', accept: 'audio/*', type: 'file' },
+  ],
+  pdf: [
+    { id: 'fileUrl', label: 'Upload PDF File', accept: 'application/pdf', type: 'file' },
+  ],
 }
 
 const EXPORT_FORMATS = [
@@ -93,6 +100,7 @@ export default function Generator() {
   const [activeTab, setActiveTab] = useState('content')
   const [exporting, setExporting] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState({})
   const { getInstance } = useQRInstance()
   const logoInputRef = useRef(null)
 
@@ -269,6 +277,65 @@ export default function Generator() {
                                 </option>
                               ))}
                             </select>
+                          ) : field.type === 'file' ? (
+                            <div className="flex flex-col gap-2">
+                              <input
+                                type="file"
+                                id={`file-${field.id}`}
+                                accept={field.accept}
+                                className="hidden"
+                                disabled={uploadProgress[field.id] !== undefined && uploadProgress[field.id] !== null}
+                                onChange={async (e) => {
+                                  const file = e.target.files[0]
+                                  if (file) {
+                                    setUploadProgress(prev => ({ ...prev, [field.id]: 0 }))
+                                    try {
+                                      const url = await uploadFile(file, (progress) => {
+                                        setUploadProgress(prev => ({ ...prev, [field.id]: progress }))
+                                      })
+                                      setQROptions({
+                                        fields: {
+                                          ...qrOptions.fields,
+                                          [field.id]: url,
+                                          [`${field.id}Name`]: file.name
+                                        }
+                                      })
+                                      setUploadProgress(prev => ({ ...prev, [field.id]: null }))
+                                      showSuccess('File uploaded securely!')
+                                    } catch (err) {
+                                      console.error(err)
+                                      setUploadProgress(prev => ({ ...prev, [field.id]: null }))
+                                      showError('Upload failed. Your file might be too large or storage is disabled.')
+                                    }
+                                  }
+                                }}
+                              />
+                              <label
+                                htmlFor={`file-${field.id}`}
+                                className={`flex items-center justify-center gap-2 py-4 rounded-xl border transition-all cursor-pointer font-semibold text-sm ${
+                                  uploadProgress[field.id] !== undefined && uploadProgress[field.id] !== null
+                                    ? 'border-white/10 bg-white/5 text-white/50 pointer-events-none'
+                                    : 'border-[#8b5cf6]/30 bg-[#8b5cf6]/10 text-[#8b5cf6] hover:bg-[#8b5cf6]/20'
+                                }`}
+                              >
+                                {uploadProgress[field.id] !== undefined && uploadProgress[field.id] !== null ? (
+                                  <>
+                                    <RefreshCw className="w-5 h-5 animate-spin" />
+                                    Uploading... {Math.round(uploadProgress[field.id])}%
+                                  </>
+                                ) : (
+                                  <>
+                                    <Download className="w-5 h-5 rotate-180" />
+                                    {field.label}
+                                  </>
+                                )}
+                              </label>
+                              {qrOptions.fields?.[`${field.id}Name`] && (
+                                <p className="text-xs text-center text-white/50 mt-1">
+                                  Selected: {qrOptions.fields[`${field.id}Name`]}
+                                </p>
+                              )}
+                            </div>
                           ) : (
                             <input
                               type={field.type}

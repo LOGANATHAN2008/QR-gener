@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/layout/Navbar'
 import ToastContainer from './components/ui/Toast'
 import CommandPalette from './components/ui/CommandPalette'
+import FileRedirect from './components/FileRedirect'
 import Home from './pages/Home'
 import Generator from './pages/Generator'
 import Dashboard from './pages/Dashboard'
@@ -95,6 +96,9 @@ export default function App() {
           <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
           <Route path="/cookie-policy" element={<PageTransition><CookiePolicy /></PageTransition>} />
           <Route path="/gdpr" element={<PageTransition><GDPR /></PageTransition>} />
+          
+          {/* File redirect route for branded QR codes */}
+          <Route path="/:fileId/:fileName" element={<PageTransition><FileRedirect /></PageTransition>} />
         </Routes>
       </AnimatePresence>
 

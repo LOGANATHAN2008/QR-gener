@@ -13,6 +13,8 @@ export const QR_TYPES = [
   { id: 'location', label: 'Location', icon: 'MapPin', color: '#FF6B6B', placeholder: 'Latitude, Longitude' },
   { id: 'event', label: 'Event', icon: 'Calendar', color: '#FFD60A', placeholder: 'Event Name' },
   { id: 'social', label: 'Social Media', icon: 'Share2', color: '#FF2D55', placeholder: 'Profile URL' },
+  { id: 'audio', label: 'Audio', icon: 'Music', color: '#E91E63', placeholder: 'Audio URL (MP3, etc.)' },
+  { id: 'pdf', label: 'PDF', icon: 'FileText', color: '#F44336', placeholder: 'PDF URL' },
 ]
 
 export const DOT_STYLES = ['square', 'rounded', 'dots', 'classy', 'classy-rounded', 'extra-rounded']
@@ -43,6 +45,10 @@ export function buildQRData(type, fields) {
       return `BEGIN:VEVENT\nSUMMARY:${fields.title || ''}\nDTSTART:${fields.start || ''}\nDTEND:${fields.end || ''}\nLOCATION:${fields.location || ''}\nDESCRIPTION:${fields.description || ''}\nEND:VEVENT`
     case 'social':
       return fields.url || ''
+    case 'audio':
+      return fields.fileUrl || ''
+    case 'pdf':
+      return fields.fileUrl || ''
     default:
       return fields.url || ''
   }
