@@ -1,6 +1,6 @@
-// src/lib/firebase.js
 import { initializeApp } from 'firebase/app'
 import { getAnalytics, logEvent, setAnalyticsCollectionEnabled } from 'firebase/analytics'
+import { getDatabase } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCuQV-quDAlW8t5v5xJ6E7KhvMjx1fr9Bs",
@@ -12,8 +12,9 @@ const firebaseConfig = {
   measurementId: "G-9QSQXYSEC8"
 }
 
-let app = null
-let analytics = null
+export let app
+export let analytics
+export let database = null
 export let storage = null
 
 // In dev mode, every event includes debug_mode: true so Firebase DebugView shows them live
@@ -23,6 +24,7 @@ export function initFirebase() {
   try {
     app = initializeApp(firebaseConfig)
     analytics = getAnalytics(app)
+    database = getDatabase(app)
     setAnalyticsCollectionEnabled(analytics, true)
 
     // Inject gtag shim so GA4 script picks up debug_mode via URL/cookie trick
